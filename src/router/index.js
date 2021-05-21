@@ -99,38 +99,38 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  {
-    path: '/system',
-    component: Layout,
-    redirect: '/system/user',
-    alwaysShow: true, // will always show the root menu
-    name: 'System',
-    meta: {
-      title: '系统管理',
-      icon: 'documentation',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'user',
-        component: () => import('@/views/system/user'),
-        name: 'User',
-        meta: {
-          title: '用户管理',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'role',
-        component: () => import('@/views/system/role'),
-        name: 'Role',
-        meta: {
-          title: '角色管理',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/system',
+  //   component: Layout,
+  //   redirect: '/system/user',
+  //   alwaysShow: true, // will always show the root menu
+  //   name: 'System',
+  //   meta: {
+  //     title: '系统管理',
+  //     icon: 'documentation',
+  //     roles: ['admin', 'editor'] // you can set roles in root nav
+  //   },
+  //   children: [
+  //     {
+  //       path: 'user',
+  //       component: () => import('@/views/system/user'),
+  //       name: 'User',
+  //       meta: {
+  //         title: '用户管理',
+  //         roles: ['admin'] // or you can only set roles in sub nav
+  //       }
+  //     },
+  //     {
+  //       path: 'role',
+  //       component: () => import('@/views/system/role'),
+  //       name: 'Role',
+  //       meta: {
+  //         title: '角色管理',
+  //         roles: ['admin'] // or you can only set roles in sub nav
+  //       }
+  //     }
+  //   ]
+  // },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
