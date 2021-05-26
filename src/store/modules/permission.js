@@ -1,7 +1,10 @@
+//静态路由 
+//import { asyncRoutes, constantRoutes } from '@/router'
+//动态路由
 import { constantRoutes } from '@/router'
 import Layout from '@/layout'
 import { getToken} from '@/utils/auth'
-import { getRoutes } from '@/api/user'
+import { getRoutes } from '@/api/system/user'
 
 
 /**
@@ -28,6 +31,12 @@ function hasPermission(roles, route) {
   routes.forEach(route => {
     const tmp = {...route}
     if (hasPermission(roles, tmp)) {
+      // 静态路由
+      // if (tmp.children) {
+      //   tmp.children = filterAsyncRoutes(tmp.children, roles)
+      // }
+      // res.push(tmp)
+      // 动态路由
       const component = tmp.component
       if (route.component) {
         if (component === 'Layout') {
@@ -62,7 +71,17 @@ const mutations = {
 const actions = {
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
-      // 请求后台数据替换src/router/index.js的asyncRoutes异步路由
+      // 静态路由
+      // let accessedRoutes
+      // if (roles.includes('admin')) {
+      //   accessedRoutes = asyncRoutes || []
+      // } else {
+      //   accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+      // }
+      // commit('SET_ROUTES', accessedRoutes)
+      // resolve(accessedRoutes)
+      // 动态路由
+      //请求后台数据替换src/router/index.js的asyncRoutes异步路由
       getRoutes(state.token).then(response => {
         // filterAsyncRoutes方法作权限过滤和数据转换，roles为登录用户角色ID集合，如：[1,2]
         const accessedRoutes = filterAsyncRoutes(response.data, roles)

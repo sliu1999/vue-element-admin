@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/authservice/api/login',
+    url: '/usermanage/api/login',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/authservice/api/current',
+    url: '/usermanage/api/vue/current',
     method: 'get',
     params: { token }
   })
@@ -25,7 +25,7 @@ export function logout(token) {
 
 export function getRoutes(token) {
   return request({
-    url: '/authservice/api/menus',
+    url: '/usermanage/api/vue/menus',
     method: 'get',
     params: { token }
   })

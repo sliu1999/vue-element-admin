@@ -108,16 +108,26 @@ export const asyncRoutes = [
   //   meta: {
   //     title: '系统管理',
   //     icon: 'documentation',
-  //     roles: ['admin', 'editor'] // you can set roles in root nav
+  //     roles: ['2018113009'] // you can set roles in root nav
   //   },
   //   children: [
   //     {
   //       path: 'user',
-  //       component: () => import('@/views/system/user'),
+  //       component: () => import('@/views/system/user/list'),
   //       name: 'User',
   //       meta: {
   //         title: '用户管理',
-  //         roles: ['admin'] // or you can only set roles in sub nav
+  //         roles: ['2018113009'] // or you can only set roles in sub nav
+  //       }
+  //     },
+  //     {
+  //       path: 'detail',
+  //       hidden: true,
+  //       component: () => import('@/views/system/user/detail'),
+  //       name: 'detail',
+  //       mate: {
+  //         title: '用户详情',
+  //         roles: ['2018113009']
   //       }
   //     },
   //     {
@@ -126,7 +136,7 @@ export const asyncRoutes = [
   //       name: 'Role',
   //       meta: {
   //         title: '角色管理',
-  //         roles: ['admin'] // or you can only set roles in sub nav
+  //         roles: ['2018113009'] // or you can only set roles in sub nav
   //       }
   //     }
   //   ]

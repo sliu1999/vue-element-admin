@@ -12,6 +12,7 @@ const service = axios.create({
 })
 
 // request interceptor
+// 将token放入请求头
 service.interceptors.request.use(
   config => {
     // do something before request is sent
@@ -44,18 +45,20 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
+    console.log("接口请求成功-200")
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 0) {
+    // 如果返回值errorCode 不为0 则返回弹框接口错误
+    if (res.errorCode !== 0) {
       Message({
-        message: res.message || 'Error',
+        message: res.msg || 'Error!',
         type: 'error',
         duration: 5 * 1000
       })
 
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired; 跟token相关的验证码，后台自定义
+      if (res.errorCode === 50008 || res.errorCode === 50012 || res.errorCode === 50014) {
         // to re-login
         MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
           confirmButtonText: 'Re-Login',
@@ -67,13 +70,13 @@ service.interceptors.response.use(
           })
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.msg || 'Error'))
     } else {
       return res
     }
   },
   error => {
-    console.log('err' + error) // for debug
+    console.log('err' + error,"接口请求失败") // for debug
     Message({
       message: error.message,
       type: 'error',

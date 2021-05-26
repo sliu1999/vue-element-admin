@@ -1,9 +1,11 @@
-import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { login, logout, getInfo } from '@/api/system/user'
+import { getToken, setToken, removeToken, getUserInfo, setUserInfo, removeUserInfo, getUserInfoSession, setUserInfoSession, removeUserInfoSession } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
+  currentUserInfo: getUserInfo(),
+  currentUserInfoSession: getUserInfoSession(),
   name: '',
   avatar: '',
   introduction: '',
@@ -13,6 +15,12 @@ const state = {
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
+  },
+  SET_USER_INFO: (state, currentUserInfo) => {
+    state.currentUserInfo = currentUserInfo
+  },
+  SET_USER_INFO_SESSION: (state, currentUserInfoSession) => {
+    state.currentUserInfoSession = currentUserInfoSession
   },
   SET_INTRODUCTION: (state, introduction) => {
     state.introduction = introduction
@@ -29,14 +37,23 @@ const mutations = {
 }
 
 const actions = {
-  // user login
+  // user login 用户登录
   login({ commit }, userInfo) {
+    // 定义登录信息用户名，密码
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
+        // 设置token Cookie
         commit('SET_TOKEN', data.token)
         setToken(data.token)
+        // 设置userInfo Cookie
+        commit('SET_USER_INFO', JSON.stringify({'userId':data.userId,'username':data.username}))
+        setUserInfo(JSON.stringify({'userId':data.userId,'username':data.username}))
+        //设置userInfo Session
+        commit('SET_USER_INFO_SESSION', JSON.stringify({'userId':data.userId,'username':data.username}))
+        setUserInfoSession(JSON.stringify({'userId':data.userId,'username':data.username}))
+
         resolve()
       }).catch(error => {
         reject(error)
@@ -44,7 +61,7 @@ const actions = {
     })
   },
 
-  // get user info
+  // get user info 获取用户信息，做验证
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
@@ -61,10 +78,12 @@ const actions = {
           reject('getInfo: roles must be a non-null array!')
         }
 
+        //同步操作mutations中的方法
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
+
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -72,17 +91,22 @@ const actions = {
     })
   },
 
-  // user logout
+  // user logout 用户退出
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
+        commit('SET_USER_INFO', '')
+        commit('SET_USER_INFO_SESSION', '')
+        removeUserInfoSession()
+        removeUserInfo()
         removeToken()
         resetRouter()
 
         // reset visited views and cached views
         // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+        //异步操作actions的方法
         dispatch('tagsView/delAllViews', null, { root: true })
 
         resolve()
@@ -98,11 +122,15 @@ const actions = {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
       removeToken()
+      commit('SET_USER_INFO', '')
+      removeUserInfo()
+      commit('SET_USER_INFO_SESSION', '')
+      removeUserInfoSession()
       resolve()
     })
   },
 
-  // dynamically modify permissions
+  // dynamically modify permissions 动态修改用户角色，权限 用不到
   async changeRoles({ commit, dispatch }, role) {
     const token = role + '-token'
 
