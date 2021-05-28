@@ -135,12 +135,15 @@ export default {
         this.$refs.password.focus()
       })
     },
+    //登录接口
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          //异步提交
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
+              //登录成功后，路由跳转到 / 首页
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })

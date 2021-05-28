@@ -30,3 +30,18 @@ export function getRoutes(token) {
     params: { token }
   })
 }
+
+export function getMenuTree() {
+  return request({
+    url: '/usermanage/api/menus/treeTwo',
+    method: 'get'
+  })
+}
+
+export function getRoleMenuTree(roleId) {
+  return request({
+    url: '/usermanage/api/menus/tree/'+roleId,
+    method: 'get'
+  })
+}
+

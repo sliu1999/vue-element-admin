@@ -29,7 +29,7 @@ import Layout from '@/layout'
  */
 
 /**
- * constantRoutes
+ * constantRoutes 静态路由
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
@@ -65,6 +65,7 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/401'),
     hidden: true
   },
+  //首页
   {
     path: '/',
     component: Layout,
@@ -78,6 +79,7 @@ export const constantRoutes = [
       }
     ]
   },
+  //个人中心
    {
     path: '/profile',
     component: Layout,

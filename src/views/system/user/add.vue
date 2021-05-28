@@ -1,16 +1,16 @@
 <template>
     <div>
         <el-dialog :visible.sync="addUserModel" @close="closeDialog()" :close-on-click-modal="false" :modal-append-to-body="false" title="新增用户" :width="width">
-            <el-form :model="userInfo" :rules="rules" ref="userInfo" label-position="top" class="demo-ruleForm padding20">
+            <el-form :model="addUserInfo" :rules="rules" ref="addUserInfo" label-position="top" class="demo-ruleForm padding20">
                 <el-divider content-position="left">用户信息</el-divider>
                  <el-form-item label="用户名" prop="loginId">
-                    <el-input placeholder="请输入用户名" v-model="userInfo.loginId"></el-input>
+                    <el-input placeholder="请输入用户名" v-model="addUserInfo.loginId"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
-                    <el-input show-password placeholder="请输入密码" v-model="userInfo.password"></el-input>
+                    <el-input show-password placeholder="请输入密码" v-model="addUserInfo.password"></el-input>
                 </el-form-item>
                 <el-form-item label="角色" prop="roles">
-                     <el-select v-model="userInfo.roles" multiple placeholder="请选择">
+                     <el-select v-model="addUserInfo.roles" multiple placeholder="请选择">
                         <el-option
                         v-for="item in roleList"
                         :key="item.id"
@@ -38,7 +38,7 @@ export default {
         return {
             addUserModel: false,
             width: null,
-            userInfo:{
+            addUserInfo:{
                 loginId: '',
                 password: '',
                 roles: []
@@ -66,10 +66,10 @@ export default {
             
         },
         save(){
-            this.$refs['userInfo'].validate( valid => {
+            this.$refs['addUserInfo'].validate( valid => {
                 if(valid){
                     var roleL = []
-                    var rolesL = this.userInfo.roles
+                    var rolesL = this.addUserInfo.roles
                     for (let i = 0; i < rolesL.length; i++) {
                         if(i === 0){
                             roleL.push({
@@ -84,8 +84,8 @@ export default {
                         }
                     }
                     const obj = {
-                        loginId: this.userInfo.loginId,
-                        password: this.userInfo.password,
+                        loginId: this.addUserInfo.loginId,
+                        password: this.addUserInfo.password,
                         roles: roleL
                     }
                     addUser(obj)
@@ -94,7 +94,7 @@ export default {
                             this.$parent.init()
                             this.addUserModel = false
                             this.$message({ type: 'success', message: '保存成功!' })
-                            this.$refs['userInfo'].resetFields()
+                            this.$refs['addUserInfo'].resetFields()
                             console.log(this.roleList, "下拉框内容")
                         })
                         .catch(err => {
@@ -105,12 +105,14 @@ export default {
         },
         closeDialog () {
             console.log("关闭弹框")
-            this.$refs['userInfo'].resetFields()
+            this.$refs['addUserInfo'].resetFields()
         },
         openDialog(width) {
             this.width = width === undefined ? '500px' : width
             this.addUserModel = true
-            this.$refs['userInfo'].resetFields()
+            console.log(this.addUserInfo, "表单信息")
+            this.addUserInfo.loginId = ''
+            this.addUserInfo.password = ''
         },
     }
 }
