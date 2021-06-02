@@ -10,7 +10,7 @@
             <el-form-item label="菜单权限">
                 <div class="scrollDiv">
                     <el-tree :data="menuTree" node-key="id" ref="tree" :check-strictly="false"
-                        :props="{ children: 'children', label: 'label' }">
+                        :props="{ children: 'children', label: 'label' }" default-expand-all>
                     </el-tree>
                 </div>
             </el-form-item>

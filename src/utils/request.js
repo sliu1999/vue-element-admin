@@ -45,7 +45,6 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    console.log("接口请求成功-200")
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
@@ -58,11 +57,11 @@ service.interceptors.response.use(
       })
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired; 跟token相关的验证码，后台自定义
-      if (res.errorCode === 50008 || res.errorCode === 50012 || res.errorCode === 50014) {
+      if (res.errorCode === 2002 || res.errorCode === 2005 || res.errorCode === 50014) {
         // to re-login
-        MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-          confirmButtonText: 'Re-Login',
-          cancelButtonText: 'Cancel',
+        MessageBox.confirm('您的用户信息已过期，您可以取消退出以留在此页面，或再次登录', '确认退出', {
+          confirmButtonText: '重新登录',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           store.dispatch('user/resetToken').then(() => {

@@ -1,36 +1,5 @@
 import request from '@/utils/request'
 
-export function login(data) {
-  return request({
-    url: '/usermanage/api/login',
-    method: 'post',
-    data
-  })
-}
-
-export function getInfo(token) {
-  return request({
-    url: '/usermanage/api/vue/current',
-    method: 'get',
-    params: { token }
-  })
-}
-
-export function logout(token) {
-  return request({
-    url: '/authservice/api/logout',
-    method: 'get'
-  })
-}
-
-export function getRoutes(token) {
-  return request({
-    url: '/usermanage/api/vue/menus',
-    method: 'get',
-    params: { token }
-  })
-}
-
 export function getMenuTree() {
   return request({
     url: '/usermanage/api/menus/treeTwo',
@@ -42,6 +11,37 @@ export function getRoleMenuTree(roleId) {
   return request({
     url: '/usermanage/api/menus/tree/'+roleId,
     method: 'get'
+  })
+}
+
+export function saveMenu(data) {
+  return request({
+    url: '/usermanage/api/menus',
+    method: 'post',
+    data: data
+  })
+}
+
+export function queryAllStairMenu(){
+  return request({
+    url: '/usermanage/api/queryAllStairMenu',
+    method: 'get'
+  })
+}
+
+
+export function queryMenuInfo(id){
+  return request({
+    url: '/usermanage/api/menus/'+id,
+    method: 'get'
+  })
+}
+
+
+export function deleteMenuInfo(id){
+  return request({
+    url: '/usermanage/api/menus/'+id,
+    method: 'delete'
   })
 }
 
