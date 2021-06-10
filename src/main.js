@@ -42,6 +42,10 @@ Vue.use(Element, {
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+//全局方法挂载
+Vue.prototype.$fileUrl = 'http://47.117.128.180:80'
+
+
 
 Vue.config.productionTip = false
 

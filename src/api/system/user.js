@@ -86,3 +86,14 @@ export function getUserInfo(id) {
     method: 'get'
   })
 }
+/**
+ * 获取用户列表
+ * @param {*} id 
+ * @returns 
+ */
+export function getUserList() {
+  return request({
+    url: '/usermanage/api/users/list',
+    method: 'get'
+  })
+}
