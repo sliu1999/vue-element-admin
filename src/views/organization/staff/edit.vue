@@ -262,7 +262,7 @@ export default {
         getdepartmentTree(){
             getDepartTree()
                 .then(res => {
-                    this.departmentTree = this.setTree(res.data)
+                    this.departmentTree = res.data
                 })
                 .catch(err => {
 
