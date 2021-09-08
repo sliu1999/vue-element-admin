@@ -8,6 +8,13 @@ export function login(data) {
   })
 }
 
+export function getLoginCode() {
+  return request({
+    url: '/authservice/api/getCode',
+    method: 'get'
+  })
+}
+
 export function logout(token) {
   return request({
     url: '/authservice/api/logout',
@@ -97,3 +104,21 @@ export function getUserList() {
     method: 'get'
   })
 }
+
+// 根据用户id获取详情Map列表 UserApi.getListById
+export function getListById(ids) {
+  return request({
+    url: '/usermanage/api/queryUserDetailListById/' + ids,
+    method: 'get'
+  })
+}
+
+// 根据用户id获取详情Map列表UserApi.getList
+export function queryUserDetailPage(data) {
+  return request({
+    url: '/usermanage/api/queryUserDetailPage',
+    method: 'get',
+    params: data
+  })
+}
+

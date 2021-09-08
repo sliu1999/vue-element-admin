@@ -89,29 +89,6 @@
   </div>
 </template>
 
-<style>
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .el-table .warning-row {
-    background: oldlace;
-  }
-  .demo-form-inline {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    padding: 10px 0;
-  }
-  .bottom {
-    width: 100%;
-    margin-top: 15px;
-  }
-  .el-table .success-row {
-    background: #f0f9eb;
-  }
-</style>
-
 <script>
 import { getStaffsPage, delStaffById } from '@/api/organization/staffs'
 import StaffAdd from '@/views/organization/staff/add'
@@ -227,3 +204,27 @@ export default {
   }
 }
 </script>
+
+<style>
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .el-table .warning-row {
+    background: oldlace;
+  }
+  .demo-form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px 0;
+  }
+  .bottom {
+    width: 100%;
+    margin-top: 15px;
+  }
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+</style>
+

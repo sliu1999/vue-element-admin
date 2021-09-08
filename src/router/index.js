@@ -79,6 +79,140 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/newForm',
+    component: Layout,
+    redirect: '/',
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/formTableDesign/newForm'),
+        name: '表单设计',
+        meta: { title: '表单设计', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/flow',
+    component: Layout,
+    redirect: '/',
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/flow/panel'),
+        name: '流程设计',
+        meta: { title: '流程设计', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/flowStart',
+    component: Layout,
+    redirect: '/',
+    hidden: true,
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/process/initiatingProcess'),
+        name: '表单发起',
+        meta: { title: '表单发起', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  // {
+  //   path: '/historyProcess',
+  //   component: Layout,
+  //   redirect: '/',
+  //   children: [
+  //     {
+  //       path: '',
+  //       component: () => import('@/views/process/historyProcess'),
+  //       name: '历史流程',
+  //       meta: { title: '历史流程', icon: 'dashboard', affix: true }
+  //     },
+  //     {
+  //       path: 'viewProcess',
+  //       component: () => import('@/views/process/viewProcess'),
+  //       name: '历史详情',
+  //       hidden: true,
+  //       meta: { title: '历史详情', icon: 'dashboard', affix: true }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/todoProcess',
+  //   component: Layout,
+  //   redirect: '/',
+  //   children: [
+  //     {
+  //       path: '',
+  //       component: () => import('@/views/process/todoProcess'),
+  //       name: '待办流程',
+  //       meta: { title: '待办流程', icon: 'dashboard', affix: true }
+  //     },
+  //     {
+  //       path: 'handleProcess',
+  //       component: () => import('@/views/process/handleProcess'),
+  //       name: '待办详情',
+  //       hidden: true,
+  //       meta: { title: '待办详情', icon: 'dashboard', affix: true }
+  //     }
+  //   ]
+  // },
+  {
+    path: '/process',
+    component: Layout,
+    redirect: '/process/historyProcess',
+    alwaysShow: true, 
+    name: 'process',
+    meta: {
+      title: '事项管理',
+      icon: 'documentation',
+      affix: true
+    },
+    children: [
+      {
+        path: 'historyProcess',
+        component: () => import('@/views/process/historyProcess'),
+        name: '历史流程',
+        meta: { title: '历史流程', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'viewProcess',
+        component: () => import('@/views/process/viewProcess'),
+        name: '历史详情',
+        hidden: true,
+        meta: { title: '历史详情', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'todoProcess',
+        component: () => import('@/views/process/todoProcess'),
+        name: '待办流程',
+        meta: { title: '待办流程', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'handleProcess',
+        component: () => import('@/views/process/handleProcess'),
+        name: '待办详情',
+        hidden: true,
+        meta: { title: '待办详情', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  //流程发起权限
+  {
+    path: '/flowStartAccess',
+    component: Layout,
+    redirect: '/',
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/system/access/flowStartAccess'),
+        name: '流程发起权限',
+        meta: { title: '流程发起权限', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
   //个人中心
    {
     path: '/profile',

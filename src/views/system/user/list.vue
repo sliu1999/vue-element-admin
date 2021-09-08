@@ -102,8 +102,10 @@
 
     <!-- 重置密码弹窗 -->
     <el-dialog width="400px" title="修改密码" :visible.sync="mimadialog" append-to-body :close-on-click-modal="false">
-      <el-form ref="ruleForm4" :model="ruleForm4" label-width="100px" class="demo-ruleForm padding20" :rules="rule4">
-        <el-form-item label="新密码" prop="password"><el-input v-model="ruleForm4.password" type="password" /></el-form-item>
+      <el-form ref="ruleForm4" :model="ruleForm4" class="demo-ruleForm padding20" :rules="rule4">
+        <el-form-item label="新密码" prop="password">
+          <el-input v-model="ruleForm4.password" type="password" />
+        </el-form-item>
         <el-form-item style="width:100%;text-align:center" class="bottomBtn">
           <el-button type="primary" style="background: #25BE88;border-color: #25BE88;" @click="surePassword()">确认修改</el-button>
           <el-button @click="cancelEditPassword">取消</el-button>
@@ -117,28 +119,7 @@
   </div>
 </template>
 
-<style>
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .el-table .warning-row {
-    background: oldlace;
-  }
-  .demo-form-inline {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    padding: 10px 0;
-  }
-  .bottom {
-    width: 100%;
-    margin-top: 15px;
-  }
-  .el-table .success-row {
-    background: #f0f9eb;
-  }
-</style>
+
 
 <script>
 import { getUserPageList, delUserById, changeOtherPsd } from '@/api/system/user'
@@ -353,3 +334,26 @@ export default {
   }
 }
 </script>
+
+<style>
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .el-table .warning-row {
+    background: oldlace;
+  }
+  .demo-form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px 0;
+  }
+  .bottom {
+    width: 100%;
+    margin-top: 15px;
+  }
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+</style>

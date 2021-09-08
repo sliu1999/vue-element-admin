@@ -69,6 +69,7 @@ export default {
     github: '项目地址',
     logOut: '退出登录',
     profile: '个人中心',
+    flowCreate: '流程发起',
     theme: '换肤',
     size: '布局大小'
   },

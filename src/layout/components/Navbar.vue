@@ -22,7 +22,8 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <!-- <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar"> -->
+          <img src="../../../static/images/touxiang.jpg" alt="头像" class="user-avatar" />
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -47,9 +48,58 @@
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>
+          <el-dropdown-item divided @click.native="openCreate">
+            <span style="display:block;">{{ $t('navbar.flowCreate') }}</span>
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
+<el-dialog title="选择表单" :visible.sync="dialogSelectVisible" id="openMods">
+      <div v-loading="loading" v-if="cats.length!=0">
+        <div>
+          <el-input placeholder="在此搜索" v-model="query"></el-input>
+        </div>
+        <div>
+          <el-tabs v-model="activeName" v-if="!query">
+            <el-tab-pane
+              v-for="(tab,index) in cats"
+              :key="index"
+              :label="tab.typeName"
+              :name="tab.typeIds.toString()"
+            >
+              <el-row>
+                <el-button
+                  style="margin-bottom:10px;"
+                  v-for="(item,index) in tab.formIdName"
+                  type="primary"
+                  :key="index"
+                  plain
+                  @click="selectMod(item.formId)"
+                >{{item.formName}}</el-button>
+                <div v-if="tab.formIdName.length==0">无</div>
+              </el-row>
+            </el-tab-pane>
+          </el-tabs>
+          <el-tabs v-if="query" v-model="activeName3">
+            <el-tab-pane label="搜索结果" name="queryResult">
+              <el-row>
+                <el-button
+                  style="margin-bottom:5px;"
+                  v-for="(mod,index) in filteredMods"
+                  type="primary"
+                  plain
+                  :key="index"
+                  @click="selectMod(mod.id)"
+                >{{mod.name}}</el-button>
+              </el-row>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </div>
+      <h1 v-loading="loading" v-if="cats.length==0">无数据</h1>
+    </el-dialog>
+ 
   </div>
 </template>
 
@@ -62,6 +112,7 @@ import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import LangSelect from '@/components/LangSelect'
 import Search from '@/components/HeaderSearch'
+import formTableDesignApi from "@/api/formTableDesign/formTableDesign"
 
 export default {
   components: {
@@ -80,6 +131,19 @@ export default {
       'device'
     ])
   },
+  data() {
+    return {
+      dialogSelectVisible: false,
+      query: "",
+      activeName: "",
+      activeName3: "queryResult",
+      cats: [],
+      mods: [],
+      loading: true,
+      select: ""
+
+    };
+  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
@@ -87,6 +151,42 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    selectMod(id) {
+      //发起表单跳转到新页面
+      this.$router.push({
+        path: '/flowStart',
+        query: {
+          id: id,
+        }
+      })
+      
+      // let routeData = this.$router.resolve({
+      //   name: "/flowStart",
+      //   query: {
+      //     id: id
+      //   }
+      // });
+      // window.open(routeData.href, "_blank");
+      this.dialogSelectVisible = false;
+    },
+    openCreate() {
+      this.dialogSelectVisible = true;
+      let _this = this;
+      formTableDesignApi
+        .getNewMods()
+        .then(function(res) {
+          // 处理成功的结果
+          _this.cats = res.data.catsList;
+          _this.mods = res.data.mods;
+          _this.activeName = _this.cats[0].typeIds.toString();
+          _this.loading = false;
+          console.log(_this.loading);
+        })
+        .catch(function(error) {
+          console.log(error);
+          _this.loading = false;
+        });
     }
   }
 }

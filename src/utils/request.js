@@ -6,7 +6,7 @@ import { getToken } from '@/utils/auth'
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: process.env.VUE_APP_BASE_API, // 'http://192.168.1.245:8888'// url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
@@ -47,28 +47,44 @@ service.interceptors.response.use(
   response => {
     const res = response.data
 
+    console.log(res,"res")
+    //登录时报错
+    if (res.errorCode === 1000 || res.errorCode === 1001) {
+      Message({
+        message: res.msg || 'Error!',
+        type: 'error',
+        duration: 5 * 1000
+      })
+      return Promise.reject(new Error(res.msg || 'Error'))
+    }
+
     // if the custom code is not 20000, it is judged as an error.
     // 如果返回值errorCode 不为0 则返回弹框接口错误
-    if (res.errorCode !== 0) {
+    //登录到系统之后的错误
+
+    //token错误
+    // 2000未知错误 2001参数不合法  2002无效token 2003无效签名 2004token已过期 2005token缺失 2006刷新Token无效
+    if (res.errorCode >=2000 ) {
+      // to re-login
+      MessageBox.confirm('您的用户信息已过期，您可以取消退出以留在此页面，或再次登录', '确认退出', {
+        confirmButtonText: '重新登录',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        store.dispatch('user/resetToken').then(() => {
+          location.reload()
+        })
+      })
+    }
+    //其他接口错误
+    if (res.errorCode === -1) {
       Message({
         message: res.msg || 'Error!',
         type: 'error',
         duration: 5 * 1000
       })
 
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired; 跟token相关的验证码，后台自定义
-      if (res.errorCode === 2002 || res.errorCode === 2005 || res.errorCode === 50014) {
-        // to re-login
-        MessageBox.confirm('您的用户信息已过期，您可以取消退出以留在此页面，或再次登录', '确认退出', {
-          confirmButtonText: '重新登录',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
-        })
-      }
+      
       return Promise.reject(new Error(res.msg || 'Error'))
     } else {
       return res

@@ -72,9 +72,9 @@
                 <el-form-item label="排序" prop="sort">
                     <el-input type="number" v-model="editStaffInfo.sort" placeholder="排序"></el-input>
                 </el-form-item>
-                <el-form-item label="直属领导" prop="leader">
+                <!-- <el-form-item label="直属领导" prop="leader">
                     <el-input v-model="editStaffInfo.leader" placeholder="直属领导"></el-input>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="所属部门">
                     <div class="scrollDiv">
                         <el-tree :data="departmentTree" show-checkbox node-key="id" ref="tree" :check-strictly="true"

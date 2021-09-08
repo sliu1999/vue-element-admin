@@ -40,9 +40,9 @@ const actions = {
   // user login 用户登录
   login({ commit }, userInfo) {
     // 定义登录信息用户名，密码
-    const { username, password } = userInfo
+    const { username, password, code, uuid } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ username: username.trim(), password: password, code: code, uuid: uuid }).then(response => {
         const { data } = response
         // 设置token Cookie
         commit('SET_TOKEN', data.token)

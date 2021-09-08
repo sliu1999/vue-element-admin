@@ -37,9 +37,9 @@
             <el-form-item label="排序" prop="sort">
                 <div class="act-content" >{{staffInfo.sort}}</div>
             </el-form-item>
-            <el-form-item label="直属领导" prop="leaderName">
+            <!-- <el-form-item label="直属领导" prop="leaderName">
                 <div class="act-content" >{{staffInfo.leaderName}}</div>
-            </el-form-item>
+            </el-form-item> --> 
             <el-form-item label="所属部门">
                <div class="act-content" >{{staffInfo.departmentNames}}</div>
             </el-form-item>

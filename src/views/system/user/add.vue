@@ -100,6 +100,7 @@ export default {
                         .catch(err => {
                             this.$message({ type: 'error', message: err })
                         })
+                    this.$refs['addUserInfo'].resetFields()
                 }
             })
         },

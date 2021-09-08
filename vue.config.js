@@ -27,6 +27,7 @@ module.exports = {
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
+  //设置加载的环境变量文件
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
@@ -37,7 +38,7 @@ module.exports = {
       errors: true
     },
     //before: require('./mock/mock-server.js') 移除mock
-    //添加代理 解决跨越
+    //添加代理 解决跨域 部署到nginx调用接口会产生404问题 暂时没用到， 
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
         target: 'http://localhost:8888',

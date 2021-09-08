@@ -48,6 +48,23 @@
         </el-form-item>
       </el-tooltip>
 
+      <el-form-item prop="code">
+        <span class="svg-container">
+          <svg-icon icon-class="code" />
+        </span>
+        <el-input
+          v-model="loginForm.code"
+          auto-complete="off"
+          placeholder="验证码"
+          style="width: 60%"
+          @keyup.enter.native="handleLogin"
+        >
+        </el-input>
+        <div class="login-code">
+          <img :src="codeUrl" @click="getCode">
+        </div>
+      </el-form-item>
+
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
         {{ $t('login.logIn') }}
       </el-button>
@@ -59,6 +76,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
+import { getLoginCode } from '@/api/system/user'
 
 export default {
   name: 'Login',
@@ -81,11 +99,15 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '123456'
+        password: '123456',
+        code: '',
+        uuid: ''
       },
+      codeUrl: '',
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        code: [{ required: true, trigger: 'blur', message: '验证码不能为空' }]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -109,6 +131,7 @@ export default {
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
+    this.getCode()
   },
   mounted() {
     if (this.loginForm.username === '') {
@@ -121,6 +144,13 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
+    getCode() {
+      getLoginCode().then(res => {
+        console.log(res,"res")
+        this.codeUrl = 'data:image/gif;base64,' + res.data.img
+        this.loginForm.uuid = res.data.uuid
+      })
+    },
     checkCapslock(e) {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
@@ -140,6 +170,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          console.log(this.loginForm,"this.loginForm")
           //异步提交
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
@@ -237,6 +268,22 @@ $cursor: #fff;
 $bg:#2d3a4b;
 $dark_gray:#889aa4;
 $light_gray:#eee;
+
+.login-code {
+  position: absolute;
+    right: 10px;
+    top: 7px;
+    color: $dark_gray;
+  width: 33%;
+  height: 40px;
+  align-content: center;
+  img {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    vertical-align: middle;
+  }
+}
 
 .login-container {
   min-height: 100%;

@@ -60,3 +60,10 @@ export function getRoleById(id) {
     method: 'get'
   })
 }
+
+export function getRoleListByIds(ids) {
+  return request({
+    url: '/usermanage/api/roles/getRoleListByIds/'+ids,
+    method: 'get'
+  })
+}
